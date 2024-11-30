@@ -112,27 +112,27 @@ class _ConnectionPageState extends State<ConnectionPage> {
     connect(context, id);
   }
 
-  /// UI for software update.
-  /// If [_updateUrl] is not empty, shows a button to update the software.
-  Widget _buildUpdateUI() {
-    return _updateUrl.isEmpty
-        ? const SizedBox(height: 0)
-        : InkWell(
-            onTap: () async {
-              final url = 'https://rustdesk.com/download';
-              if (await canLaunchUrl(Uri.parse(url))) {
-                await launchUrl(Uri.parse(url));
-              }
-            },
-            child: Container(
-                alignment: AlignmentDirectional.center,
-                width: double.infinity,
-                color: Colors.pinkAccent,
-                padding: const EdgeInsets.symmetric(vertical: 12),
-                child: Text(translate('Download new version'),
-                    style: const TextStyle(
-                        color: Colors.white, fontWeight: FontWeight.bold))));
-  }
+  // /// UI for software update.
+  // /// If [_updateUrl] is not empty, shows a button to update the software.
+  // Widget _buildUpdateUI() {
+  //   return _updateUrl.isEmpty
+  //       ? const SizedBox(height: 0)
+  //       : InkWell(
+  //           onTap: () async {
+  //             final url = 'https://rustdesk.com/download';
+  //             if (await canLaunchUrl(Uri.parse(url))) {
+  //               await launchUrl(Uri.parse(url));
+  //             }
+  //           },
+  //           child: Container(
+  //               alignment: AlignmentDirectional.center,
+  //               width: double.infinity,
+  //               color: Colors.pinkAccent,
+  //               padding: const EdgeInsets.symmetric(vertical: 12),
+  //               child: Text(translate('Download new version'),
+  //                   style: const TextStyle(
+  //                       color: Colors.white, fontWeight: FontWeight.bold))));
+  // }
 
   Future<void> _fetchPeers() async {
     setState(() {
