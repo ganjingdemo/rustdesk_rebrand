@@ -6,7 +6,7 @@ edition = "2021"
 build= "build.rs"
 description = "天潮云系统 Remote Desktop"
 default-run = "rustdesk"
-rust-version = "1.78"
+rust-version = "1.75"
 
 [lib]
 name = "librustdesk"
