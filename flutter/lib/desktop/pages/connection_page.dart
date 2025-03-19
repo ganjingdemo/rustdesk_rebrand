@@ -33,19 +33,19 @@ class OnlineStatusWidget extends StatefulWidget {
 class _OnlineStatusWidgetState extends State<OnlineStatusWidget> {
   final _svcStopped = Get.find<RxBool>(tag: 'stop-service');
   final _svcIsUsingPublicServer = true.obs;
+
+  String customServer = bind.mainGetOptionSync(key: "custom-rendezvous-server");
+
+  //TODO: Add your own default server here
+  String defaultServer = "";
+  
+  String currentServer = "";
+  
   Timer? _updateTimer;
 
   double get em => 14.0;
   double? get height => bind.isIncomingOnly() ? null : em * 3;
 
-  void onUsePublicServerGuide() {
-    const url = "https://rustdesk.com/pricing.html";
-    canLaunchUrlString(url).then((can) {
-      if (can) {
-        launchUrlString(url);
-      }
-    });
-  }
 
   @override
   void initState() {
@@ -81,29 +81,6 @@ class _OnlineStatusWidgetState extends State<OnlineStatusWidget> {
             offstage: !(!_svcStopped.value &&
                 stateGlobal.svcStatus.value == SvcStatus.ready &&
                 _svcIsUsingPublicServer.value),
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Text(', ', style: TextStyle(fontSize: em)),
-                Flexible(
-                  child: InkWell(
-                    onTap: onUsePublicServerGuide,
-                    child: Row(
-                      children: [
-                        Flexible(
-                          child: Text(
-                            translate('setup_server_tip'),
-                            style: TextStyle(
-                                decoration: TextDecoration.underline,
-                                fontSize: em),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                )
-              ],
-            ),
           ),
         );
 
@@ -150,17 +127,30 @@ class _OnlineStatusWidgetState extends State<OnlineStatusWidget> {
           : basicWidget()),
     ).paddingOnly(right: isIncomingOnly ? 8 : 0);
   }
+  
+  void updateCurrentServer()
+  {
+    currentServer = customServer;
+    if (currentServer == "")
+    {
+        currentServer =  defaultServer + " (" + translate('Default') + ")";
+    }
+  }
 
-  _buildConnStatusMsg() {
+  _buildConnStatusMsg()
+  {
     widget.onSvcStatusChanged?.call();
+
+    updateCurrentServer();
+
     return Text(
       _svcStopped.value
-          ? translate("Service is not running")
+          ? translate("Service is not running") + ". " + translate('Server') + ": " + currentServer
           : stateGlobal.svcStatus.value == SvcStatus.connecting
               ? translate("connecting_status")
               : stateGlobal.svcStatus.value == SvcStatus.notReady
-                  ? translate("not_ready_status")
-                  : translate('Ready'),
+                  ? translate("not_ready_status") + ". " + translate('Server') + ": " + currentServer
+                  : translate('Ready') + ". " + translate('Server') + ": " + currentServer,
       style: TextStyle(fontSize: em),
     );
   }
