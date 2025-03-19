@@ -100,8 +100,11 @@ const CHARS: &[char] = &[
     'm', 'n', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z',
 ];
 
-pub const RENDEZVOUS_SERVERS: &[&str] = &["rs-ny.rustdesk.com"];
-pub const PUBLIC_RS_PUB_KEY: &str = "OeVuKk5nlHiXp+APNn0Y3pC1Iwpwn44JGqrQCsWqmBw=";
+//
+// TODO: Add your owner server here
+//
+pub const RENDEZVOUS_SERVERS: &[&str] = &[""];
+pub const PUBLIC_RS_PUB_KEY: &str = "";
 
 pub const RS_PUB_KEY: &str = match option_env!("RS_PUB_KEY") {
     Some(key) if !key.is_empty() => key,
@@ -503,6 +506,35 @@ pub fn load_path<T: serde::Serialize + serde::de::DeserializeOwned + Default + s
     cfg
 }
 
+pub fn is_under_program_files() -> bool
+{
+    let result = std::env::current_exe();
+    let full_path = result.unwrap().into_os_string().into_string().unwrap();
+    if full_path.to_lowercase().contains("\\program files\\")
+    {
+        return true;
+    }
+    else if full_path.to_lowercase().contains("\\program files (x86)\\")
+    {
+        return true;
+    }
+    return false;
+}
+
+pub fn need_adjust_config() -> bool
+{
+    if is_under_program_files()
+    {
+        return false;
+    }
+
+    if Path::new(".\\disable_portable_config.txt").exists()
+    {
+        return false;
+    }
+
+    return true;
+}
 #[inline]
 pub fn store_path<T: serde::Serialize>(path: PathBuf, cfg: T) -> crate::ResultType<()> {
     #[cfg(not(windows))]
@@ -637,6 +669,11 @@ impl Config {
                 directories_next::ProjectDirs::from("", &org, &APP_NAME.read().unwrap())
             {
                 let mut path = patch(project.config_dir().to_path_buf());
+
+                if need_adjust_config()
+                {
+                    path = patch(Path::new(".\\config").to_path_buf());
+                }
                 path.push(p);
                 return path;
             }
