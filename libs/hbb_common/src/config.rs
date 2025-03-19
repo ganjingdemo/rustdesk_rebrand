@@ -528,12 +528,12 @@ pub fn need_adjust_config() -> bool
         return false;
     }
 
-    if Path::new(".\\disable_portable_config.txt").exists()
+    if Path::new(".\\enable_portable_config.tmp.txt").exists()
     {
-        return false;
+        return true;
     }
 
-    return true;
+    return false;
 }
 #[inline]
 pub fn store_path<T: serde::Serialize>(path: PathBuf, cfg: T) -> crate::ResultType<()> {
