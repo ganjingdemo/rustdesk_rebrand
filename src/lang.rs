@@ -47,7 +47,7 @@ mod vn;
 pub const LANGS: &[(&str, &str)] = &[
     ("en", "English"),
     ("zh-cn", "简体中文"),
-   
+    ("zh-tw", "繁體中文"),
 ];
 
 #[cfg(not(any(target_os = "android", target_os = "ios")))]
