@@ -49,6 +49,18 @@ lazy_static::lazy_static! {
 type Size = (i32, i32, i32, i32);
 type KeyPair = (Vec<u8>, Vec<u8>);
 
+pub const APP_NAME_CFG_FILE_NAME: &str = "AppName.cfg";
+
+pub fn get_app_name() -> String
+{
+    if Path::new(APP_NAME_CFG_FILE_NAME).is_file()
+    {
+        let contents = fs::read_to_string(APP_NAME_CFG_FILE_NAME);
+        return contents.unwrap();
+    }
+    return "RustDesk".to_string();
+}
+
 lazy_static::lazy_static! {
     static ref CONFIG: RwLock<Config> = RwLock::new(Config::load());
     static ref CONFIG2: RwLock<Config2> = RwLock::new(Config2::load());
@@ -60,7 +72,9 @@ lazy_static::lazy_static! {
         _ => "",
     }.to_owned());
     pub static ref EXE_RENDEZVOUS_SERVER: RwLock<String> = Default::default();
-    pub static ref APP_NAME: RwLock<String> = RwLock::new("RustDesk".to_owned());
+
+    pub static ref APP_NAME: RwLock<String> = RwLock::new(get_app_name().to_owned());
+
     static ref KEY_PAIR: Mutex<Option<KeyPair>> = Default::default();
     static ref USER_DEFAULT_CONFIG: RwLock<(UserDefaultConfig, Instant)> = RwLock::new((UserDefaultConfig::load(), Instant::now()));
     pub static ref NEW_STORED_PEER_CONFIG: Mutex<HashSet<String>> = Default::default();

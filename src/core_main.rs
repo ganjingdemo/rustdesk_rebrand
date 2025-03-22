@@ -165,7 +165,7 @@ pub fn core_main() -> Option<Vec<String>> {
     #[cfg(all(feature = "flutter", feature = "plugin_framework"))]
     #[cfg(not(any(target_os = "android", target_os = "ios")))]
     init_plugins(&args);
-    if args.is_empty() || crate::common::is_empty_uni_link(&args[0]) || (args[0] == "-m") {
+    if args.is_empty() || crate::common::is_empty_uni_link(&args[0]) {
         std::thread::spawn(move || crate::start_server(false, no_server));
     } else {
         #[cfg(windows)]
