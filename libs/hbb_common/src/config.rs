@@ -528,7 +528,7 @@ pub fn need_adjust_config() -> bool
         return false;
     }
 
-    if Path::new(".\\enable_portable_config.tmp.txt").exists()
+    if Path::new(".\\enable_portable_config.tmp.cfg").exists()
     {
         return true;
     }
