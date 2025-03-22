@@ -56,7 +56,11 @@ pub fn get_app_name() -> String
     if Path::new(APP_NAME_CFG_FILE_NAME).is_file()
     {
         let contents = fs::read_to_string(APP_NAME_CFG_FILE_NAME);
-        return contents.unwrap();
+        let app_name = contents.unwrap();
+        if app_name.trim().len()>0
+        {
+            return app_name.trim().to_string();
+        }
     }
     return "RustDesk".to_string();
 }
