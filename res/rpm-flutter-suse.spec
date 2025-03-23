@@ -1,5 +1,5 @@
 Name:       rustdesk
-Version:    1.32.10055
+Version:    1.32.10057
 Release:    0
 Summary:    RPM package
 License:    GPL-3.0
