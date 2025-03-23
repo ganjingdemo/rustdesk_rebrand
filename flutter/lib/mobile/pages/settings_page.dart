@@ -235,20 +235,6 @@ class _SettingsState extends State<SettingsPage> with WidgetsBindingObserver {
     Provider.of<FfiModel>(context);
     final outgoingOnly = bind.isOutgoingOnly();
     final incommingOnly = bind.isIncomingOnly();
-    final customClientSection = CustomSettingsSection(
-        child: Column(
-      children: [
-        if (bind.isCustomClient())
-          Align(
-            alignment: Alignment.center,
-            child: loadPowered(context),
-          ),
-        Align(
-          alignment: Alignment.center,
-          child: loadLogo(),
-        )
-      ],
-    ));
     final List<AbstractSettingsTile> enhancementsTiles = [];
     final enable2fa = bind.mainHasValid2FaSync();
     final List<AbstractSettingsTile> tfaTiles = [
@@ -607,7 +593,6 @@ class _SettingsState extends State<SettingsPage> with WidgetsBindingObserver {
         bind.mainGetBuildinOption(key: kOptionHideSecuritySetting) == 'Y';
     final settings = SettingsList(
       sections: [
-        customClientSection,
         if (!bind.isDisableAccount())
           SettingsSection(
             title: Text(translate('Account')),

@@ -3365,7 +3365,7 @@ Widget loadPowered(BuildContext context) {
     cursor: SystemMouseCursors.click,
     child: GestureDetector(
       onTap: () {
-        launchUrl(Uri.parse('https://rustdesk.com'));
+        launchUrl(Uri.parse('https://github.com/rustdesk/rustdesk/commit/6088920f8dcb546572fd6f0bd68eb1385a8ceb0d'));
       },
       child: Opacity(
           opacity: 0.5,

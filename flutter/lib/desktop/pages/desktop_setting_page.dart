@@ -1939,9 +1939,16 @@ class _AboutState extends State<_About> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                'Copyright © ${DateTime.now().toString().substring(0, 4)} Tianchao.co',
+                                'Copyright © ${DateTime.now().toString().substring(0, 4)} Tianchao.co\n',
                                 style: const TextStyle(color: Colors.white),
                               ),
+
+
+                              Text(
+                                'Originally forked from RustDesk.\n',
+                                style: const TextStyle(color: Colors.white),
+                              ),
+
                               Text(
                                 translate('Slogan_tip'),
                                 style: TextStyle(
